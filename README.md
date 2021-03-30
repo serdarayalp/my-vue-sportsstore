@@ -1,6 +1,6 @@
 # my-vue-sportsstore
 
-Project setup
+Project setup (mit default-Verhalten(--default))
 ```
 vue create sportsstore --default
 ```
@@ -50,4 +50,9 @@ npm install --save-dev jsonwebtoken@8.1.1
 Dieses Paket wird verwendet, um Testdaten zu erzeugen, um sicherzustellen, dass SportsStore mit großen Datenmengen umgehen kann.
 ```
 npm install --save-dev faker@4.1.0
+```
+
+# Starten des json-server
+```
+npm run json
 ```
