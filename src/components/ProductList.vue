@@ -4,20 +4,24 @@
       <h4>
         {{ p.name }}
         <span class="badge badge-pill badge-primary float-right">
-          {{ p.price }}
+          {{ p.price | currency }}
         </span>
       </h4>
       <div class="card-text bg-white p-1">{{ p.description }}</div>
     </div>
+    <page-controls />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import PageControls from "./PageControls";
 
 export default {
+  components: { PageControls },
   computed: {
-    /* (...) ist der Spread-Operator oder die Spread-Syntax. 
+    /* 
+    ... ist der Spread-Operator oder die Spread-Syntax. 
     Er nimmt im Wesentlichen einen Ausdruck (normalerweise ein Array) und wandelt ihn in 
     mehrere Anweisungen um. 
 
@@ -34,7 +38,16 @@ export default {
     um HTML-Elemente zu manipulieren. Im Listing verwende ich die v-for Direktive, die ein Element 
     und seinen Inhalt für jedes Element in einem Array dupliziert.
       */
-    ...mapState(["products"]),
+    ...mapGetters({ products: "processedProducts" }),
+  },
+  filters: {
+    // wird zur Definition von Filtern verwendet...
+    currency(value) {
+      return new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: "EUR",
+      }).format(value);
+    },
   },
 };
 </script>
