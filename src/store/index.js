@@ -1,44 +1,36 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-/* 
-Plugins werden über die Methode Vue.use aktiviert. Wenn Sie vergessen, die use-Methode aufzurufen, 
-dann werden die Funktionen des Datenspeichers im Rest der Anwendung nicht verfügbar sein.
-*/
+import Axios from "axios";
+
 Vue.use(Vuex);
 
-const testData = [];
-
-for (let i = 1; i <= 10; i++) {
-    testData.push({
-        id: i,
-        name: `Produkt #${i}`,
-        category: `Kategorie ${i % 3}`,
-        description: `Das ist Produkt #${i}`,
-        price: i * 50
-    })
-}
+const baseUrl = "http://localhost:3500";
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
 
 export default new Vuex.Store({
     strict: true,
     state: {
-        products: testData,
-        productsTotal: testData.length,
+        products: [],
+        categoriesData: [],
+        productsTotal: 0,
         currentPage: 1,
         pageSize: 4,
-        currentCategory: "Alle"
+        currentCategory: "All"
     },
     getters: {
         productsFilteredByCategory: state => state.products
-            .filter(p => state.currentCategory == "Alle" || p.category == state.currentCategory),
+            .filter(p => state.currentCategory == "All" 
+                || p.category == state.currentCategory),
         processedProducts: (state, getters) => {
             let index = (state.currentPage - 1) * state.pageSize;
-            return getters.productsFilteredByCategory.slice(index, index + state.pageSize);
+            return getters.productsFilteredByCategory.slice(index, 
+                index + state.pageSize);
         },
         pageCount: (state, getters) =>
             Math.ceil(getters.productsFilteredByCategory.length / state.pageSize),
-        categories: state => ["Alle",
-            ...new Set(state.products.map(p => p.category).sort())]
+        categories: state => ["All", ...state.categoriesData]
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -51,6 +43,18 @@ export default new Vuex.Store({
         setCurrentCategory(state, category) {
             state.currentCategory = category;
             state.currentPage = 1;
+        },
+        setData(state, data) {
+            state.products = data.pdata;
+            state.productsTotal = data.pdata.length;
+            state.categoriesData = data.cdata.sort();
+        }
+    },
+    actions: {
+        async getData(context) {
+            let pdata = (await Axios.get(productsUrl)).data;
+            let cdata = (await Axios.get(categoriesUrl)).data;
+            context.commit("setData", { pdata, cdata} );
         }
     }
 })
