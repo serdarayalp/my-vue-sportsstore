@@ -41,11 +41,10 @@ export default {
     ...mapGetters({ products: "processedProducts" }),
   },
   filters: {
-    // wird zur Definition von Filtern verwendet...
     currency(value) {
-      return new Intl.NumberFormat("de-DE", {
+      return new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "EUR",
+        currency: "USD",
       }).format(value);
     },
   },

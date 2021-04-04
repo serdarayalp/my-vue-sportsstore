@@ -56,3 +56,4 @@ npm install --save-dev faker@4.1.0
 ```
 npm run json
 ```
+Server ist unter der URL http://localhost:3500 erreichbar.
