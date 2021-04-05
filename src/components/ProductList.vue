@@ -7,18 +7,23 @@
           {{ p.price | currency }}
         </span>
       </h4>
-      <div class="card-text bg-white p-1">{{ p.description }}</div>
+      <div class="card-text bg-white p-1">{{ p.description }}
+        <button class="btn btn-success btn-sm float-right"
+                v-on:click="handleProductAdd(p)">
+          Add To Cart
+        </button>
+      </div>
     </div>
-    <page-controls />
+    <page-controls/>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 import PageControls from "./PageControls";
 
 export default {
-  components: { PageControls },
+  components: {PageControls},
   computed: {
     /* 
     ... ist der Spread-Operator oder die Spread-Syntax. 
@@ -38,7 +43,7 @@ export default {
     um HTML-Elemente zu manipulieren. Im Listing verwende ich die v-for Direktive, die ein Element 
     und seinen Inhalt für jedes Element in einem Array dupliziert.
       */
-    ...mapGetters({ products: "processedProducts" }),
+    ...mapGetters({products: "processedProducts"}),
   },
   filters: {
     currency(value) {
@@ -48,5 +53,20 @@ export default {
       }).format(value);
     },
   },
+  methods: {
+    ...mapMutations({addProduct: "cart/addProduct"}),
+    handleProductAdd(product) {
+      this.addProduct(product);
+
+      /*
+      Die vom Vue-Router-Paket bereitgestellte Funktionalität wird den Komponenten über die Eigenschaft
+      $router zur Verfügung gestellt (der Zugriff auf alle Eigenschaften und Methoden in einer Komponente
+      erfordert die Verwendung des Schlüsselworts this). Die Push-Methode weist den Router an, die URL des
+      Browsers zu ändern, was zur Folge hat, dass eine andere Komponente angezeigt wird. Das Ergebnis ist, dass
+      die Warenkorb-Komponente angezeigt wird, wenn Sie auf eine der Schaltflächen "In den Warenkorb" klicken.
+      */
+      this.$router.push("/cart");
+    }
+  }
 };
 </script>
