@@ -14,8 +14,10 @@ gesamten Anwendung verwendet werden können, wie Sie sehen werden, wenn Funktion
 hinzugefügt werden.
 */
 import store from "./store";
+import router from "./router";
 
 new Vue({
     render: h => h(App),
-    store
+    store,
+    router
 }).$mount('#app')
