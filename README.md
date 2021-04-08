@@ -57,3 +57,34 @@ npm install --save-dev faker@4.1.0
 npm run json
 ```
 Server ist unter der URL http://localhost:3500 erreichbar.
+
+# Useful NPM Commands
+```
+npm install 
+```
+This command performs a local install of the packages specified in the package.json file.
+
+```
+npm install package@version 
+```
+This command performs a local install of a specific version of a package and updates the package.json file to add the package to the dependencies section.
+
+```
+npm install --save-dev package@version
+```
+This command performs a local install of a specific version of a package and updates the package.json file to add the package to the devDependencies section.
+
+```
+npm install --global package@version
+```
+This command performs a global install of a specific version of a package.
+
+```
+npm list 
+```
+This command lists all the local packages and their dependencies.
+
+```
+npm run 
+```
+This command executes one of the scripts defined in the package. 
