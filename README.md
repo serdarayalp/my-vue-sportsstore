@@ -57,3 +57,9 @@ npm install --save-dev faker@4.1.0
 npm run json
 ```
 Server ist unter der URL http://localhost:3500 erreichbar.
+
+# Build starten
+Das Argument --modern ist eine optionale Funktion, die zwei Versionen der Anwendung erzeugt, von denen eine nur für moderne Browser ist, die die neuesten JavaScript-Funktionen unterstützen, und eine für ältere Browser, die zusätzlichen Code und Bibliotheken benötigen, um diese Funktionen zu verarbeiten.
+```
+npm run build --modern
+```
